@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Днём Рождения, любимая Мамочка!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fff5f5 0%, #fef2f2 40%, #fdf4ff 100%);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --primary-color: #d9777f;
+            --primary-dark: #b8545c;
+            --gold-accent: #d4af37;
+            --text-dark: #374151;
+            --text-muted: #6b7280;
+            --shadow: 0 20px 50px rgba(217, 119, 127, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Падающие лепестки / конфетти на фоне */
+        #petals-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Главная карточка */
+        .hero-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 32px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(217, 119, 127, 0.12);
+            color: var(--primary-dark);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 8px 20px;
+            border-radius: 50px;
+            margin-bottom: 25px;
+        }
+
+        /* Рамка для главного фото мамы */
+        .main-photo-wrapper {
+            position: relative;
+            width: 240px;
+            height: 240px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            padding: 8px;
+            background: linear-gradient(135deg, #f3d1d4, var(--gold-accent), #d9777f);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.25);
+            transition: transform 0.4s ease;
+        }
+
+        .main-photo-wrapper:hover {
+            transform: scale(1.03);
+        }
+
+        .main-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            background-color: #fce7f3;
+        }
+
+        .photo-sparkle {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: #fff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: #1f2937;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: var(--primary-dark);
+            font-style: italic;
+        }
+
+        .lead-text {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--text-dark);
+            max-width: 680px;
+            margin: 0 auto 30px;
+            font-weight: 400;
+        }
+
+        .signature {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-style: italic;
+            color: var(--primary-dark);
+            margin-top: 20px;
+        }
+
+        /* Кнопка праздничного салюта */
+        .celebrate-btn {
+            margin-top: 25px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: #fff;
+            border: none;
+            padding: 15px 34px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(184, 84, 92, 0.3);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .celebrate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(184, 84, 92, 0.4);
+        }
+
+        .celebrate-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Секция пожеланий */
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.3rem;
+            text-align: center;
+            margin: 50px 0 30px;
+            color: #1f2937;
+        }
+
+        .wishes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 50px;
+        }
+
+        .wish-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 30px 25px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .wish-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 35px rgba(217, 119, 127, 0.15);
+        }
+
+        .wish-icon {
+            font-size: 2.4rem;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .wish-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+        }
+
+        .wish-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        /* Галерея воспоминаний (опционально) */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .polaroid {
+            background: #fff;
+            padding: 14px 14px 22px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        .polaroid:hover {
+            transform: translateY(-5px) rotate(1deg);
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            background-color: #f9fafb;
+        }
+
+        .polaroid-caption {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            font-style: italic;
+            color: var(--text-dark);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 600px) {
+            .hero-card {
+                padding: 35px 20px;
+            }
+            h1 {
+                font-size: 2.3rem;
+            }
+            .main-photo-wrapper {
+                width: 190px;
+                height: 190px;
+            }
+            .lead-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="petals-canvas"></canvas>
+
+    <div class="container">
+        <!-- Главная открытка -->
+        <main class="hero-card">
+            <div class="badge">С Днём Рождения</div>
+
+            <!-- Главная фотография мамы -->
+            <div class="main-photo-wrapper">
+                <img src="mom.jpg" alt="Любимая Мама" class="main-photo" onerror="this.src='https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=600&q=80'">
+                <div class="photo-sparkle">💐</div>
+            </div>
+
+            <h1>Дорогая и любимая <span>Мамочка!</span></h1>
+
+            <p class="lead-text">
+                Спасибо тебе за твою бесконечную доброту, заботу и тепло, которыми ты согреваешь каждый мой день. 
+                Твоя улыбка — это самое светлое, что есть в мире, а твоя поддержка всегда даёт мне крылья. 
+                Пусть каждый твой день будет наполнен радостью, гармонией, уютом и сотнями поводов для счастливой улыбки!
+            </p>
+
+            <div class="signature">С огромной любовью и благодарностью ❤️</div>
+
+            <button class="celebrate-btn" onclick="burstHearts()">
+                <span>✨</span> Отправить объятия и цветы
+            </button>
+        </main>
+
+        <!-- Блок пожеланий -->
+        <h2 class="section-title">Мои главные пожелания для тебя</h2>
+        <section class="wishes-grid">
+            <div class="wish-card">
+                <div class="wish-icon">🌸</div>
+                <h3>Крепкого здоровья</h3>
+                <p>Пусть энергия, бодрость и прекрасное самочувствие сопровождают тебя каждый день долгие-долгие годы.</p>
+            </div>
+            <div class="wish-card">
+                <div class="wish-icon">☀️</div>
+                <h3>Счастья и вдохновения</h3>
+                <p>Пусть в душе всегда цветёт весна, глаза сияют от радости, а каждый новый день приносит приятные сюрпризы.</p>
+            </div>
+            <div class="wish-card">
+                <div class="wish-icon">🏡</div>
+                <h3>Тепла и уюта</h3>
+                <p>Пусть в доме всегда царят мир, достаток и гармония, а рядом будут только любящие и близкие люди.</p>
+            </div>
+        </section>
+
+        <!-- Дополнительная фото-галерея (показывается, если загрузить photo1.jpg, photo2.jpg, photo3.jpg) -->
+        <div id="gallery-section">
+            <h2 class="section-title">Тёплые моменты</h2>
+            <section class="gallery-grid">
+                <div class="polaroid">
+                    <img src="photo1.jpg" alt="Тёплый момент 1" onerror="this.parentElement.style.display='none'">
+                    <div class="polaroid-caption">Самая красивая улыбка</div>
+                </div>
+                <div class="polaroid">
+                    <img src="photo2.jpg" alt="Тёплый момент 2" onerror="this.parentElement.style.display='none'">
+                    <div class="polaroid-caption">Счастливые мгновения</div>
+                </div>
+                <div class="polaroid">
+                    <img src="photo3.jpg" alt="Тёплый момент 3" onerror="this.parentElement.style.display='none'">
+                    <div class="polaroid-caption">Лучшая мама на свете</div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            Создано специально для тебя с любовью ❤️
+        </footer>
+    </div>
+
+    <script>
+        // Скрываем заголовок галереи, если дополнительные фото (photo1.jpg и т.д.) не загружены
+        window.addEventListener('load', () => {
+            const gallerySection = document.getElementById('gallery-section');
+            const visiblePolaroids = Array.from(gallerySection.querySelectorAll('.polaroid'))
+                .filter(el => el.style.display !== 'none');
+            if (visiblePolaroids.length === 0) {
+                gallerySection.style.display = 'none';
+            }
+        });
+
+        // Анимация нежных падающих лепестков и сердечек на фоне
+        const canvas = document.getElementById('petals-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Petal {
+            constructor(isBurst = false) {
+                this.reset(isBurst);
+            }
+
+            reset(isBurst = false) {
+                this.x = isBurst ? window.innerWidth / 2 : Math.random() * canvas.width;
+                this.y = isBurst ? window.innerHeight / 2 : Math.random() * -canvas.height;
+                this.size = Math.random() * 8 + 6;
+                this.speedY = isBurst ? (Math.random() * -12 - 4) : (Math.random() * 1.2 + 0.6);
+                this.speedX = isBurst ? (Math.random() * 16 - 8) : (Math.random() * 1 - 0.5);
+                this.gravity = isBurst ? 0.25 : 0;
+                this.angle = Math.random() * 360;
+                this.spin = Math.random() * 2 - 1;
+                this.opacity = Math.random() * 0.5 + 0.35;
+                const colors = ['#f4abb4', '#fbcfe8', '#fda4af', '#f9a8d4', '#fde047'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.speedY += this.gravity;
+                this.x += this.speedX + Math.sin(this.angle * Math.PI / 180) * 0.4;
+                this.angle += this.spin;
+
+                if (this.y > canvas.height + 20) {
+                    if (this.gravity > 0) {
+                        this.opacity = 0; // удаляем частицу салюта после падения
+                    } else {
+                        this.reset(false);
+                        this.y = -20;
+                    }
+                }
+            }
+
+            draw() {
+                if (this.opacity <= 0) return;
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle * Math.PI / 180);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                // Рисуем нежный лепесток
+                ctx.ellipse(0, 0, this.size, this.size * 0.6, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 35; i++) {
+            particles.push(new Petal(false));
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            particles = particles.filter(p => p.opacity > 0);
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        function burstHearts() {
+            for (let i = 0; i < 45; i++) {
+                particles.push(new Petal(true));
+            }
+        }
+    </script>
+</body>
+</html>
